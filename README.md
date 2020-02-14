@@ -1,5 +1,11 @@
 # csharp_grapevine_bootstrap
 
+**<u>Technologies</u>**
+- C# / .NET
+- Grapevine
+- Bootstrap
+- js
+
 **<u>Goal</u>**
 
 - I just wanted to have a starting point to distribute via a REST server some "web" files, html, jpg, css, etc.
@@ -8,6 +14,6 @@
 - Good luck!
 
 
-
-| ![](./_README/img_software.jpg) | ![](./_README/img_bootstrap.jpg) |
+![](./_README/img_software.jpg)
+![](./_README/img_bootstrap.jpg)
 
