@@ -26,11 +26,11 @@ namespace BootstrapWindowsFormsApp
             if (requestURL.IndexOf(MainForm.PortNumber.ToString()) >= 0)
             {
                 string requestedPath = requestURL.Substring(requestURL.IndexOf(stringToSearch) + stringToSearch.Length);
-                
+
                 // If found request is empty, default to index.html
                 if (string.IsNullOrWhiteSpace(requestedPath) == true)
                     requestedPath = "index.html";
-                
+
                 // Local file path
                 string localFilepath = MainForm.BaseFilesLocation + requestedPath;
 
@@ -39,10 +39,40 @@ namespace BootstrapWindowsFormsApp
                 {
                     try
                     {
-                        // Give that file content as an answer
-                        context.Response.SendResponse(File.ReadAllBytes(localFilepath));
+                        // If index, dynamic values
+                        if (requestedPath.Equals("index.html") == true)
+                        {
+                            // Get all lines
+                            List<string> lines = new List<string>(File.ReadAllLines(localFilepath));
+                            if (lines != null && lines.Count > 0)
+                            {
+                                // String builder
+                                StringBuilder sb = new StringBuilder();
+
+                                // Sample Data
+                                GrapevineBootstrapSampleData bootstrapSampleData = new GrapevineBootstrapSampleData();
+
+                                // Go through each lines
+                                for (int i = 0; i < lines.Count; i++)
+                                {
+                                    sb.AppendLine(bootstrapSampleData.ParseLine(lines[i]));
+                                }
+
+                                // Give that file content as an answer
+                                context.Response.SendResponse(Encoding.UTF8.GetBytes(sb.ToString()));
+                            }
+
+                        }
+                        // Else, default answer
+                        else
+                        {
+                            // Give that file content as an answer
+                            context.Response.SendResponse(File.ReadAllBytes(localFilepath));
+                        }
+
                         // And status is OK
                         context.Response.StatusCode = Grapevine.Shared.HttpStatusCode.Ok;
+
                         // Return answer
                         return context;
                     }
